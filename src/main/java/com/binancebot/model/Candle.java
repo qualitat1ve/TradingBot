@@ -1,93 +1,42 @@
 package com.binancebot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+@Getter
+@Jacksonized
+@SuperBuilder
+@RequiredArgsConstructor
+@EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Candle {
-    private String symbol;
-    private long startTime;
-    private long endTime;
-    private double openPrice;
-    private double closePrice;
-    private double highPrice;
-    private double lowPrice;
-    private boolean isClosed;
+    private final String symbol;
+    private final Long startTime;
+    private final Long endTime;
+    private final Double openPrice;
+    private final Double closePrice;
+    private final Double highPrice;
+    private final Double lowPrice;
+    private final Boolean isClosed;
 
-    public Candle() {
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
-
-    public long getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
-    }
-
-    public double getOpenPrice() {
-        return openPrice;
-    }
-
-    public void setOpenPrice(double openPrice) {
-        this.openPrice = openPrice;
-    }
-
-    public double getClosePrice() {
-        return closePrice;
-    }
-
-    public void setClosePrice(double closePrice) {
-        this.closePrice = closePrice;
-    }
-
-    public double getHighPrice() {
-        return highPrice;
-    }
-
-    public void setHighPrice(double highPrice) {
-        this.highPrice = highPrice;
-    }
-
-    public double getLowPrice() {
-        return lowPrice;
-    }
-
-    public void setLowPrice(double lowPrice) {
-        this.lowPrice = lowPrice;
-    }
-
-    public boolean isClosed() {
-        return isClosed;
-    }
-
-    public void setClosed(boolean closed) {
-        isClosed = closed;
-    }
 
     @Override
     public String toString() {
-        return "Candle{" +
-                "symbol='" + symbol + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", openPrice=" + openPrice +
-                ", closePrice=" + closePrice +
-                ", highPrice=" + highPrice +
-                ", lowPrice=" + lowPrice +
-                ", isClosed=" + isClosed +
-                '}';
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("symbol", symbol)
+                .append("startTime", startTime)
+                .append("endTime", endTime)
+                .append("openPrice", openPrice)
+                .append("closePrice", closePrice)
+                .append("highPrice", highPrice)
+                .append("lowPrice", lowPrice)
+                .append("isClosed", isClosed)
+                .toString();
     }
 }
