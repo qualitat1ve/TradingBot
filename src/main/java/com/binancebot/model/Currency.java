@@ -9,6 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigDecimal;
+
 @Getter
 @Jacksonized
 @SuperBuilder
@@ -18,7 +20,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class Currency {
 
     private final String symbol;
-    private final Double price;
+    private final BigDecimal price;
 
     @Override
     public String toString() {

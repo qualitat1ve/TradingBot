@@ -9,6 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigDecimal;
+
 @Getter
 @Jacksonized
 @SuperBuilder
@@ -19,10 +21,10 @@ public class Candle {
     private final String symbol;
     private final Long startTime;
     private final Long endTime;
-    private final Double openPrice;
-    private final Double closePrice;
-    private final Double highPrice;
-    private final Double lowPrice;
+    private final BigDecimal openPrice;
+    private final BigDecimal closePrice;
+    private final BigDecimal highPrice;
+    private final BigDecimal lowPrice;
     private final Boolean isClosed;
 
 
