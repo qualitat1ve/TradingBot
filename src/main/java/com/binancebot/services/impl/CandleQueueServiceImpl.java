@@ -2,17 +2,13 @@ package com.binancebot.services.impl;
 
 import com.binance.connector.futures.client.impl.UMWebsocketClientImpl;
 import com.binancebot.converter.JsonToCandleConverter;
-import com.binancebot.model.Candle;
 import com.binancebot.model.Interval;
+import com.binancebot.services.CalculationService;
 import com.binancebot.services.CandleQueueService;
-import com.google.common.collect.EvictingQueue;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -29,23 +25,16 @@ public class CandleQueueServiceImpl implements CandleQueueService {
 
     @Override
     public void buildQueue(String symbol, Interval interval, int period) {
-        var closedCandles = EvictingQueue.<Candle>create(period);
 
         checkNotNull(symbol, "Symbol should not be null");
         checkNotNull(interval, "Interval should not be null");
 
+        CalculationService calculationService = new CalculationServiceImpl(period);
+
         websocketClient.klineStream(symbol, interval.getValue(), ((event) -> {
             // can be extracted to separate service to easily test sma retrieval logic
             var candle = jsonToCandleConverter.toCandle(event);
-            if (candle.getIsClosed()) {
-                closedCandles.add(candle);
-                if (closedCandles.remainingCapacity() == 0) {
-                    BigDecimal sum = closedCandles.stream().map(Candle::getClosePrice).reduce(BigDecimal.ZERO, BigDecimal::add);
-                    var sma = sum.divide(BigDecimal.valueOf(period), RoundingMode.CEILING);
-                    LOGGER.info("sma value: {}", sma);
-                }
-            }
-
+            var sma = calculationService.getSma(candle);
             LOGGER.info("Candle in building queue: {}", candle);
         }));
     }
