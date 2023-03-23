@@ -39,7 +39,7 @@ class CalculationServiceImplTest {
         // When
         BigDecimal result = BigDecimal.valueOf(-1);
         for (Candle candle : candles) {
-            result = calculationService.getSma(candle);
+            result = calculationService.calculateSma(candle);
         }
 
         // Then

@@ -7,12 +7,12 @@ import com.binancebot.services.KlineInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static com.binancebot.config.Constants.DEFAULT_CURRENCY;
+import static com.binancebot.config.Constants.DEFAULT_PERIOD;
+
 @Service
 @RequiredArgsConstructor
 public class ServicesRunner {
-
-    private static final String DEFAULT_CURRENCY = "BTCUSDT";
-    private static final int PERIOD = 7;
 
     private final CurrencyService currencyService;
     private final KlineInfoService klineInfoService;
@@ -20,7 +20,8 @@ public class ServicesRunner {
 
     public void run() {
         currencyService.printCurrencies();
+        //TODO: replace default values with ones set by User
         klineInfoService.print(DEFAULT_CURRENCY, Interval.MIN_1);
-        candleQueueService.buildQueue(DEFAULT_CURRENCY, Interval.MIN_1, PERIOD);
+        candleQueueService.buildQueue(DEFAULT_CURRENCY, Interval.MIN_1, DEFAULT_PERIOD);
     }
 }
